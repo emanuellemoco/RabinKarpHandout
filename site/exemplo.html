@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Algoritmo de Rabin Karp</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans+Extra+Condensed:700|Oxygen+Mono|Source+Sans+Pro:700|Source+Serif+Pro&display=swap">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/script.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <main>
+
+<h1>Algoritmo de Rabin Karp</h1>
+
+<h2>Introdução</h2>
+
+<p>Você já sabe um jeito básico para procurar padrão em strings, vamos relembrar:</p>
+
+<p>func1(string padrao, string text):<br/> for i in text:
+LÉOZINHO JR É PATETICO
+(terminar codigo)</p>
+
+<p>Já sabemos que essa maneira não é ideal pois tem complexidade \(O(nm)\) e como vocês viram há outras maneiras mais eficientes de solucionar este problema, vamos implementar mais uma forma.</p>
+
+<h2>Questão 1</h2>
+
+<p>Antes de iniciarmos com o algoritmo, é importante falarmos um pouco sobre <em>hashing</em>, pois ele é essêncial para o funcionamento dessa busca. Apenas como aquecimento, discuta com seus colegas de bancada se algum de vocês ja ouviu falar sobre este tema.<br/>Coisa rapida, levem cerca de 2 minutos e sigam em frente.</p>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<h2>Hashing</h2>
+
+<p><em>Hashing</em> é um processo que gera uma saída de um valor a partir de uma entrada com tamanho variável. Essa entrada pode ser tanto números quanto caracteres.O valor da saída é conhecido como <em>Hash Value</em> e para chegarmos nesse valor utilizamos uma função, chamada de <em>Hashing function</em>. Essa função pode ser implementada de diversas maneiras, porem mais para frente você vai entender o porquê o tipo de implementação é importante.</p>
+
+<p>Para calcular um <em>Hash Value</em> é utilizado os valores da tabela ASCII respectivos para cada caracter. Você pode acessar a tabela ASCII <a href="https://www.insper.edu.br/" target="_blank">aqui</a>.</p>
+
+<h2>Questão 2</h2>
+
+<p>Uma maneira para se obter o <em>hash Value</em> é simplesmente somar o valor da tabela ASCII referente a cada caracter. Vamos ver se você entendeu? Calcule o <em>hash Value</em> da palavra <code class="prettybox prettyprint">HASH</code>.</p>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<pre class="prettybox"><code class="prettyprint">72 + 65 + 72 + 83 = 292</code></pre>
+
+<h2>Questão 3</h2>
+
+<p>Essa <em>Hashing function</em> function pode, eventualmente, gerar um problema. Você consegue pensar em qual é? Reflita um pouquinho antes de continuar.<br/>Dica: calcule o <em>hash value</em> de <code class="prettybox prettyprint">CPDM</code>.</p>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<h2>Colisão</h2>
+
+<p>Entendeu? O problema dessa função é relacionado ao que chamamos de <em>colisão</em>. Uma colisão ocorre quando duas ou mais entradas têm o mesmo hash value. <strong>Todas</strong> as funções têm chances de ocorrer colisão, mas algumas funções tem uma menor probabilidade do que outras. Uma <em>boa</em> hash function diminui ao máximo o número de colisões.<br/>Nesta aula utilizaremos a seguinte lei, para a função de hashing:</p>
+
+<p>\(Value = R.X_1^{N-1} + R.X_2^{N-1} + R.X_3^{N-2} + ...  + R.X_N^0\)</p>
+
+<p>Onde:</p>
+
+<ul><li>N é a quantidade de caracteres do padrão calculado.</li><li>X é o valor do caracter na tabela ASCII</li><li>R é a quantidade de caracteres do alfabeto utilizado, por exemplo R = 256 para o alfabeto ASCII estendido.</li></ul>
+
+<h2>??</h2>
+
+<p>Agora que <em>hash</em> é algo além de uma palavra legal da computação, podemos seguir com o algoritimo desse encontro. O Rabin-Karp consiste em iterar com esse hash value sobre o hash do texto inteiro, como exemplificado no exemplo abaixo:</p>
+
+<p class="figure"><img alt="simulacao1" src="img/simulacao1.gif" title="simulacao1" class="raster"/></p>
+
+<p>compara sem utilizar rolling hash
+complexidade ruim</p>
+
+<pre class="prettybox"><code class="prettyprint">    FAZER CODIGO SEM ROLLING HASH CALCULANDO O HASH DE CADA CARACTER
+    A LÉO JR É PATÉTICO</code></pre>
+
+<p>Esse código ainda tem uma complexidade ruim de \(O(nm)\) pois ainda é necessário acessar vários caracteres múltiplas vezes para pegar o seu valor. Como é possível observar na simulação acima, primeiro é calculado o valor de <code class="prettybox prettyprint">ADA</code>, na proxima iteração, é calcular do valor de <code class="prettybox prettyprint">DAC</code>, porém, o valor de <code class="prettybox prettyprint">DA</code> que já foi calculado na primeira iteração, é recalculado para a segunda.<br/>Você consegue pensar em algum jeito de contornar isso?</p>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<h2>Rolling Hash</h2>
+
+<p><em>Rolling Hash</em> é um tipo de função que consiste em manter a maior parte dos números já calculados, evitando o desperdicio de tempo e memoria que seria recalcular. Por exemplo, após o primeiro cálculo do valor de Hash, basta subtrair o valor do primeiro caracter comparado e adicionar o do proximo caracter.</p>
+
+<p class="figure"><img alt="simulacao2" src="img/simulacao2.gif" title="simulacao2" class="raster"/></p>
+
+      </main>
+      <footer>
+        <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+          <img alt="Creative Commons Attribution-ShareAlike 4.0 International License" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" title="Creative Commons Attribution-ShareAlike 4.0 International License"/>
+        </a>
+        © 2020 Desafios de Programação
+      </footer>
+    </div>
+  </body>
+</html>
