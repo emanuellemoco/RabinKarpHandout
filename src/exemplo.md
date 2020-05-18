@@ -61,6 +61,50 @@ Você deve ter chegado em algo parecido com isso:
         
         return indexes
 
+Mas, ainda temos um problema. Esse código ainda tem uma complexidade de $$O(nm)$$. Para solucionar isso iremos utilizar um método chamado _Rolling Hash_.
+
+## Rolling Hash
+
+A correção para melhorar a complexidade é a aplicação do _Rolling Hash_, que consiste em manter a maior parte dos números já calculados, evitando o desperdício de tempo e memória que seria recalculá-los. Por exemplo, após o primeiro cálculo do valor de Hash, basta subtrair o valor do primeiro carácter comparado e adicionar o do próximo carácter.
+Esta função pode ser visualizada na animação abaixo:  
+
+![simulacao2](simulacao2.gif)
+
+
+**faz questao aqui pra pessoa tentar implementar o codigo?
+      
+      
+    def RollingHash(text, pattern):
+        indexes = []
+            
+        m = len(text)
+        n = len(pattern)
+
+        text_value =0
+        pattern_value = 0
+
+        for i in range(len(pattern)):
+            pattern_value+= ord(pattern[i])
+            text_value += ord(text[i])
+        if (text_value==pattern_value):
+            indexes.append(i) 
+        for i in range(n,len(text)):
+            text_value = text_value + ord(text[i]) - ord(text[i-3])
+            if (text_value==pattern_value):
+                indexes.append(i)
+        return indexes;
+
+
+
+          
+![complexidade](complexidade.png)   //achar o lugar dessa imagem
+
+## Questão 5  
+
+Qual é a complexidade desse código? 
+
+
+
 ## Questão 4
 
 Essa _Hashing function_ pode, eventualmente, gerar um problema. Você consegue pensar em qual é? Reflita um pouquinho antes de continuar.  
@@ -92,7 +136,7 @@ O código abaixo calcula os valores de hash diminuindo a possibilidade de colis�
         pattern_value= 0
         r = 256**(len(pattern)-1)
         for character in pattern:
-            pattern_value += ord(character) * r
+            pattern_value +=    (character) * r
             r/=256
         for i in range(len(text)):
             if (i+len(pattern)>len(text)):
@@ -118,43 +162,7 @@ Agora que _hash_ é algo além de uma palavra legal da computação, podemos seg
 Mas essa solução também tem um problema! É necessário acessar vários caracteres múltiplas vezes para pegar o seu valor. Como é possível observar na simulação acima, primeiro é calculado o valor de `ADA`, ou ,seja o valor de `A` + `D` + `A`, na proxima iteração, é calculado do valor de `DAC`, ou seja, `D` + `A` + `C` porém, o valor de `D` e `A` que já foi calculado na primeira iteração, é recalculado para a segunda. Fazendo o código dessa maneira ainda gera uma complexidade ruim de $$O(nm)$$ 
 
 ###
-
-## Rolling Hash
-
-A correção para melhorar a complexidade, do algoritmo, é a aplicação do método _Rolling Hash_ que consiste em manter a maior parte dos números já calculados, evitando o desperdício de tempo e memória que seria recalcula-los. Por exemplo, após o primeiro cálculo do valor de Hash, basta subtrair o valor do primeiro carácter comparado e adicionar o do próximo carácter.
-Esta função pode ser visualizada na animação abaixo:  
-
-![simulacao2](simulacao2.gif)
-
-
-Como é possíver perceber na animação, primeiro é calculado o valor de `ADA` com os valores de `A` + `D` + `A`. Na iteração seguinte é calculado o valor de `DAC`, porém utiliza os valores já calculados de `D` + `A` e subtrai o valor também já calculado de `A` (destacado em vermelho), sendo assim, só é necessário calcular e adicionar o valor do proximo caracter, no caso o `C`.
-![complexidade](complexidade.png)  
-      
-    def RollingHash(text, pattern):
-        indexes = []
-        
-        m = len(text)
-        n = len(pattern)
-
-        pattern_value = 0
-        text_value =0
-        r = 10**(len(pattern)-1)
-        for i in range(len(pattern)):
-            pattern_value+= ord(pattern[i]) * r
-            text_value+= ord(text[i]) * r 
-            r/= 10
-        if (pattern_value==text_value):
-            indexes.append(i-n+1)
-        for i in range(n,m):
-            text_value = (text_value - ord(text[i-n])*10**(n-1))*10 + ord(text[i])
-            if (pattern_value==text_value):
-                indexes.append(i-n+1)
-        return indexes  
-
-
-## Questão 4  
-
-Qual é a complexidade desse código?  
+ 
 
 ## Rabin-Karp 
 
@@ -180,3 +188,28 @@ Abaixo temos o exemplo de um fórmula para cálcular um hash value utilizando mo
 
 $$Value = ((R . X_{i-1}$$ % $$Q + t_{i-1}(Q-R^{M-1} $$%$$Q)).R + t_{1+M-1} A Q )$$
 
+
+__________________________________________________
+falar de rolling hash antes da versao com potencia e colisao para deixar claro que a ideia é mais eficiente
+
+mostar o rolling hash com uma soma simples (subtrai que sai e soma o outro)
+
+ORDEM
+- o problema da versão de força bruta é comparar caracter por caracter para cada versão da janela
+- aplicar a ideia de hashing vai comparar um valorzinho com outro valor
+- atividade "so que tem um probleminha em termo de eficiencia" pra fazer as pessoas perceberem isso por conta propria
+- rolling hash com soma simples e ter ganho de eficiencia
+- mas tem a questao da colisao
+- "os codigos estao horriveis, foi o leronardo que fez" hashimoto
+
+Na parte das duas versoes colocar mais atividades e menos texto
+Falar que o algoritimo pode dar a resposta errada. plano B compara coisa por coisa
+
+possível ordem:
+- falar da versao monte carlo que supoe que nao tem nenhuma colisao
+- perguntar a complexidade no pior caso
+- vamos supor que a gente queira um algoritimo que nao erre, isso significa que precisamos reverter por forca bruta? (ou alguma pergunta do tipo pra perceber que existe o plano B)
+
+dar mais dicas de como chegar nas complexidades
+
+e talvez deixar a tabela mais interativa pro aluno preencher alguma parte
