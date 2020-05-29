@@ -50,6 +50,8 @@
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
+<h2>Resposta da Questão 2</h2>
+
 <pre class="prettybox"><code class="prettyprint">72 + 65 + 72 + 83 = 292</code></pre>
 
 <h2>Questão 3</h2>
@@ -57,6 +59,8 @@
 <p>Agora que vc entendeu como funciona, tente pensar em como implementar essas mudanças no código que você viu acima para comparar os <em>hash Value</em> ao invés de comparar caracter por caracter.</p>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<h2>Resposta da Questão 3</h2>
 
 <p>Você deve ter chegado em algo parecido com isso:</p>
 
@@ -81,66 +85,23 @@
 
 <h2>Questão 4</h2>
 
-<p>Essa <em>Hashing function</em> pode, eventualmente, gerar um problema. Você consegue pensar em qual é? Reflita um pouquinho antes de continuar.  </p>
-
-<blockquote><p>DICA: <br/>Simule as funções acima com as entradas:<br/>text: &quot;O MARCELO HASHIMOTO ESTÁ INDO NA PADARIA PDCM, ALGÚEM QUER ALGO?&quot;<br/>pattern: &quot;HASH&quot;  </p></blockquote>
-
-<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
-
-<h2>Colisão</h2>
-
-<p>Notou algum problema? Esse caso é o que chamamos de <em>colisão</em>. Uma colisão ocorre quando duas ou mais entradas têm o mesmo hash value. No exemplo acima, tanto <code class="prettybox prettyprint">HASH</code> como <code class="prettybox prettyprint">PDCM</code> tem o mesmo hash value. <strong>Todas</strong> as funções têm chances de ocorrer colisão, mas algumas funções tem uma menor probabilidade do que outras. Uma <em>boa</em> hash function diminui ao máximo o número de colisões.<br/>Nesta aula utilizaremos a seguinte lei para a função de hashing:</p>
-
-<p>\(Value = R.X_1^{N-1} + R.X_2^{N-1} + R.X_3^{N-2} + ...  + R.X_N^0\)</p>
-
-<p>Onde:</p>
-
-<ul><li>N é a quantidade de caracteres do padrão calculado.</li><li>X é o valor do caracter na tabela ASCII</li><li>R é a quantidade de caracteres do alfabeto utilizado, por exemplo R = 256 para o alfabeto ASCII estendido.  </li></ul>
-
-<p>O código abaixo calcula os valores de hash diminuindo a possibilidade de colisões entre padrão e texto, conforme a formula mostrada acima e considerando R = 256. </p>
-
-<pre class="prettybox"><code class="prettyprint">def stringSearchgHash(text, pattern):
-    indexes = []
-
-    pattern_value= 0
-    r = 256**(len(pattern)-1)
-    for character in pattern:
-        pattern_value += ord(character) * r
-        r/=256
-    for i in range(len(text)):
-        if (i+len(pattern)&gt;len(text)):
-            break
-        j=i
-        text_value = 0
-        r = 256**(len(pattern))
-        while(j&lt;i+len(pattern)):
-            text_value+=ord(text[j]) * r
-            j+=1
-            r/=256
-        if (text_value==pattern_value):
-            indexes.append(i)
-
-    return indexes</code></pre>
-
-<h2>Usando o Hashing</h2>
-
-<p>Agora que <em>hash</em> é algo além de uma palavra legal da computação, podemos seguir com o algoritimo desse encontro. O Rabin-Karp consiste em iterar com o hash value do padrão sobre o hash de cada parte do texto inteiro, como exemplificado na animação abaixo:</p>
+<p>Mas ainda temos um problema problema! É necessário acessar vários caracteres múltiplas vezes para pegar o seu valor. 
+Como é possível observar na simulação abaixo, primeiro é calculado o valor de <code class="prettybox prettyprint">ADA</code>, ou ,seja o valor de <code class="prettybox prettyprint">A</code> + <code class="prettybox prettyprint">D</code> + <code class="prettybox prettyprint">A</code>, na proxima iteração, é calculado do valor de <code class="prettybox prettyprint">DAC</code>, ou seja, <code class="prettybox prettyprint">D</code> + <code class="prettybox prettyprint">A</code> + <code class="prettybox prettyprint">C</code> porém, o valor de <code class="prettybox prettyprint">D</code> e <code class="prettybox prettyprint">A</code> que já foi calculado na primeira iteração, é recalculado para a segunda.</p>
 
 <p class="figure"><img alt="simulacao1" src="img/simulacao1.gif" title="simulacao1" class="raster"/></p>
 
-<p>Mas essa solução também tem um problema! É necessário acessar vários caracteres múltiplas vezes para pegar o seu valor. Como é possível observar na simulação acima, primeiro é calculado o valor de <code class="prettybox prettyprint">ADA</code>, ou ,seja o valor de <code class="prettybox prettyprint">A</code> + <code class="prettybox prettyprint">D</code> + <code class="prettybox prettyprint">A</code>, na proxima iteração, é calculado do valor de <code class="prettybox prettyprint">DAC</code>, ou seja, <code class="prettybox prettyprint">D</code> + <code class="prettybox prettyprint">A</code> + <code class="prettybox prettyprint">C</code> porém, o valor de <code class="prettybox prettyprint">D</code> e <code class="prettybox prettyprint">A</code> que já foi calculado na primeira iteração, é recalculado para a segunda. Fazendo o código dessa maneira ainda gera uma complexidade ruim de \(O(nm)\) </p>
+<p>Fazendo o código dessa maneira gera uma complexidade de \(O(nm)\), o que não é bom. Você tem ideia de como melhorar esse problema?</p>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
 <h2>Rolling Hash</h2>
 
-<p>A correção para melhorar a complexidade, do algoritmo, é a aplicação do método <em>Rolling Hash</em> que consiste em manter a maior parte dos números já calculados, evitando o desperdício de tempo e memória que seria recalcula-los. Por exemplo, após o primeiro cálculo do valor de Hash, basta subtrair o valor do primeiro carácter comparado e adicionar o do próximo carácter.
+<p>A solução para melhorar o problema da complexidade é a aplicação do método <em>Rolling Hash</em>, que consiste em manter a maior parte dos números já calculados, evitando o desperdício de tempo e memória que seria recalculá-los. Por exemplo, após o primeiro cálculo do valor de Hash, basta subtrair o valor do primeiro carácter comparado e adicionar o do próximo carácter.
 Esta função pode ser visualizada na animação abaixo:  </p>
 
 <p class="figure"><img alt="simulacao2" src="img/simulacao2.gif" title="simulacao2" class="raster"/></p>
 
-<p>Como é possíver perceber na animação, primeiro é calculado o valor de <code class="prettybox prettyprint">ADA</code> com os valores de <code class="prettybox prettyprint">A</code> + <code class="prettybox prettyprint">D</code> + <code class="prettybox prettyprint">A</code>. Na iteração seguinte é calculado o valor de <code class="prettybox prettyprint">DAC</code>, porém utiliza os valores já calculados de <code class="prettybox prettyprint">D</code> + <code class="prettybox prettyprint">A</code> e subtrai o valor também já calculado de <code class="prettybox prettyprint">A</code> (destacado em vermelho), sendo assim, só é necessário calcular e adicionar o valor do proximo caracter, no caso o <code class="prettybox prettyprint">C</code>.
-<img alt="complexidade" src="complexidade.png"/>  </p>
+<p>Na simulação acima, o caracter que está em vermelho é subtraído e o que passou de lílas para roxo, é adicionado. A implementação está abaixo:</p>
 
 <pre class="prettybox"><code class="prettyprint">def RollingHash(text, pattern):
     indexes = []
@@ -148,34 +109,103 @@ Esta função pode ser visualizada na animação abaixo:  </p>
     m = len(text)
     n = len(pattern)
 
-    pattern_value = 0
     text_value =0
-    r = 10**(len(pattern)-1)
-    for i in range(len(pattern)):
-        pattern_value+= ord(pattern[i]) * r
-        text_value+= ord(text[i]) * r 
-        r/= 10
-    if (pattern_value==text_value):
-        indexes.append(i-n+1)
+    pattern_value = 0
+
+    for i in range(n):
+        pattern_value+= ord(pattern[i])
+        text_value += ord(text[i])
+    if (text_value==pattern_value):
+        indexes.append(i-(n-1)) 
     for i in range(n,m):
-        text_value = (text_value - ord(text[i-n])*10**(n-1))*10 + ord(text[i])
-        if (pattern_value==text_value):
-            indexes.append(i-n+1)
-    return indexes  </code></pre>
+        text_value = text_value + ord(text[i]) - ord(text[i-(n)])
+        if (text_value==pattern_value):
+            indexes.append(i-(n-1))
+    return indexes</code></pre>
 
-<h2>Questão 4</h2>
+<h2>Questão 5</h2>
 
-<p>Qual é a complexidade desse código?  </p>
+<p>Qual é a complexidade desse código? </p>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<h2>Resposta da Questão 5</h2>
+
+<p>Por reutilizar valores calculados anteriormente, esse código tem complexidade \(O(n+m)\), melhor que o \(O(nm)\) da implementação <em>Brute force</em>.</p>
+
+<h2>Questão 6</h2>
+
+<p>Essa <em>Hashing function</em> pode, eventualmente, gerar um problema. Você consegue pensar em qual é? Reflita um pouquinho antes de continuar.  </p>
+
+<blockquote><p>DICA. Simule as funções acima com as entradas:  <br/>TEXT: &quot;O MARCELO HASHIMOTO ESTÁ INDO NA PADARIA PDCM, ALGÚEM QUER PÃO?&quot;<br/>PATTERN: &quot;HASH&quot;  </p></blockquote>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<h2>Colisão</h2>
+
+<p>Notou algum problema? Esse caso é o que chamamos de <em>colisão</em>. Uma colisão ocorre quando duas ou mais entradas têm o mesmo hash value. No exemplo acima, tanto <code class="prettybox prettyprint">HASH</code> como <code class="prettybox prettyprint">PDCM</code> tem o mesmo hash value. <strong>Todas</strong> as funções têm chances de ocorrer colisão, mas algumas funções tem uma menor probabilidade do que outras. Uma <em>boa</em> hash function diminui ao máximo o número de colisões.<br/>Nesta aula utilizaremos a seguinte lei para a função de hashing:</p>
+
+<p>\(Value = X.R_1^{N-1} + X.R_2^{N-1} + X.R_3^{N-2} + ...  + X.R_N^0\)</p>
+
+<p>Onde:</p>
+
+<ul><li>N é a quantidade de caracteres do padrão calculado.</li><li>X é o valor do caracter na tabela ASCII</li><li>R é a quantidade de caracteres do alfabeto utilizado, por exemplo R = 256 para o alfabeto ASCII estendido.  </li></ul>
+
+<p>O código abaixo calcula os valores de hash diminuindo a possibilidade de colisões entre padrão e texto, conforme a formula mostrada acima e considerando R = 256. </p>
+
+<pre class="prettybox"><code class="prettyprint">def rabinKarp(text, pattern):
+    indexes = []
+
+    n = len(pattern)
+    m = len(text)
+
+    pattern_value= 0
+    text_value = 0
+    r = 256**(n-1)
+    for i in range(n):
+        pattern_value +=  ord(pattern[i]) * r
+        text_value +=  ord(text[i]) * r
+        r/=256
+    if (text_value==pattern_value):
+        indexes.append(i-(n-1))   
+    for i in range(n,len(text)):
+        text_value = (text_value  - ord(text[i-n]) * 256**(n-1) )*256 + ord(text[i])
+
+        if (text_value==pattern_value):
+            indexes.append(i-(n-1))  
+
+    return indexes</code></pre>
 
 <h2>Rabin-Karp</h2>
 
-<p>O grande diferencial do algoritmo de Rabin-Karp que procura por um segmento de texto que tenha o mesmo <em>hash value</em> do padrão, é o fato do mesmo utilizar o método de <em>rolling hash</em>, permitindo assim que ele tenha sua complexidade reduzida à \(O(n+m)\) no melhor médio, tornando-o mais eficiente do que algoritimos triviais de complexidade \(O(nm)\). </p>
+<p>O algoritmo de Rabin-Karp consiste em procurar por um segmento de texto que tenha o mesmo <em>hash value</em> do padrão, o seu grande diferencial é utilizar o método <em>rolling hash</em>.</p>
 
-<p>Existem dois tipos de implementação desse algoritmo, o método de <strong>Monte Carlo</strong> e de <strong>Las Vegas</strong>. A primeira assume que não há nenhuma colisão durante a comparação. Quando o hash value do fragmento do texto bate com o do padrão, nenhuma comparação de caracteres é feita, por isso sua complexidade é \(O(n+m)\) em todos os casos. Já a de <em>Las Vegas</em> checa se os caracteres são realmente os mesmos, mas isso significa que em um caso em que todos os fragmentos de texto analisados têm o mesmo hash value do padrão, o código tem que realizar a comparação de caracteres <em>n</em> vezes, tornando a complexidade em \(O(nm)\) no seu pior caso.</p>
+<h2>Questão 7</h2>
 
-<p>As comparações de complexidade entre as implementações mencionadas podem ser vistas na tabela abaixo.  </p>
+<p>Como mencionamos antes, <strong>todas</strong> as funções têm chances de ocorrer colisão. O algoritmo acima não leva isso em conta. Você consegue pensar em um método que elimine esse problema?</p>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<h2>Monte Carlo e Las Vegas</h2>
+
+<p> Existem dois tipos de implementação desse algoritmo, o método de <strong>Monte Carlo</strong> e de <strong>Las Vegas</strong>. A primeira assume que não há nenhuma colisão durante a comparação. Quando o hash value do fragmento do texto bate com o do padrão, nenhuma comparação de caracteres é feita.
+ Já a de <em>Las Vegas</em> checa se os caracteres são realmente os mesmos, mas isso significa que em um caso em que todos os fragmentos de texto analisados têm o mesmo hash value do padrão.</p>
+
+<h2>Questão 8</h2>
+
+<p>Preencha a tabela de complexidade:</p>
+
+<p class="figure"><img alt="complexidade" src="img/complex.png" title="complexidade" class="raster"/> </p>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+
+<h2>Resposta da Questão 8</h2>
+
+<p>As comparações de complexidade entre as implementações mencionadas podem ser vistas na tabela abaixo:  </p>
 
 <p class="figure"><img alt="complexidade" src="img/complexidade.png" title="complexidade" class="raster"/>  </p>
+
+<p>A complexidade em um caso médio da implementação <em>Las Vegas</em> é \(O(n+m)\), contudo em situações nas quais existam muitas colisões esse nível de complexidade irá aumentar para \(O(nm)\), pois os hashings que coincidirem com o Hash Value desejado, irão ser testados caractere a caractere, para evitar que existam falsos positivos.<br/>O caso médio da Las Vegas, não é muito diferente do caso médio da Monte Carlo , contudo vale ressaltar a diferença essencial que ambas possuem. No pior caso da Monte Carlo, a complexidade não é alterada, pois esta não checa os caracteres do hash value caso este seja encontrado na busca ele apenas o julga como positivo verdadeiro.</p>
 
 <h2>Sobre o algoritmo</h2>
 

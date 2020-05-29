@@ -1,0 +1,33 @@
+considerar falar de rolling hash antes da versao com potencia e colisao
+
+para deixar claro que a ideia é mais eficiente
+
+mostar o rolling hash com uma soma simples (subtrai que sai e soma o outro)
+
+ORDEM
+- o problema da versão de força bruta é comparar caracter por caracter para cada versão da janela
+- aplicar a ideia de hashing vai comparar um valorzinho com outro valor
+- atividade "so que tem um probleminha em termo de eficiencia" pra fazer as pessoas perceberem isso por conta propria
+- rolling hash com soma simples e ter ganho de eficiencia
+- mas tem a questao da colisao
+
+Na parte das duas versoes colocar mais atividades e menos texto
+Falar que o algoritimo pode dar a resposta errada. plano B compara coisa por coisa
+    
+possível ordem:
+- falar da versao monte carlo que supoe que nao tem nenhuma colisao
+- perguntar a complexidade no pior caso
+- vamos supor que a gente queira um algoritimo que nao erre, isso significa que precisamos reverter por forca bruta? 
+(ou alguma pergunta do tipo pra perceber que existe o plano B)
+
+dar mais dicas de como chegar nas complexidades
+
+e talvez deixar a tabela mais interativa pro aluno preencher alguma parte
+
+
+
+*******************************pode apagar esse paragrafo?  '
+## Usando o Hashing
+
+Agora que _hash_ é algo além de uma palavra legal da computação, podemos seguir com o algoritimo desse encontro. O Rabin-Karp consiste em iterar com o hash value do padrão sobre o hash de cada parte do texto inteiro, como exemplificado na animação abaixo:
+**********************************
