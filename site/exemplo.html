@@ -21,7 +21,7 @@
 
 <h2>Introdução</h2>
 
-<p>Você já sabe um jeito básico para procurar padrão em strings, vamos relembrar:  </p>
+<p>Você já sabe um jeito básico para procurar padrões em strings, vamos relembrar:  </p>
 
 <pre class="prettybox"><code class="prettyprint">def stringMatching(text, pattern):
     indexes = []
@@ -30,37 +30,31 @@
             indexes.append(i)
     return indexes</code></pre>
 
-<p>Já sabemos que essa maneira não é ideal pois tem complexidade \(O(nm)\) e como vocês viram há outras maneiras mais eficientes de solucionar este problema, vamos implementar mais uma forma.  </p>
-
-<h2>Questão 1</h2>
-
-<p>Antes de iniciarmos com o algoritmo, é importante falarmos um pouco sobre <strong><em>hashing</em></strong>, pois ele é essêncial para o funcionamento dessa busca. Apenas como aquecimento, discuta com seus colegas se algum de vocês ja ouviu falar sobre este tema.<br/>Coisa rapida, levem cerca de 2 minutos e sigam em frente.</p>
-
-<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
+<p>Já sabemos que essa maneira não é ideal pois tem complexidade \(O(nm)\) e como vocês viram, há outras maneiras mais eficientes de solucionar este problema, vamos implementar mais uma forma.  </p>
 
 <h2>Hashing</h2>
 
-<p><strong><em>Hashing</em></strong> é um processo que gera uma saída de um valor a partir de uma entrada com tamanho variável. Essa entrada pode ser tanto números quanto caracteres. O valor da saída é conhecido como <strong><em>Hash Value</em></strong> e para chegarmos nesse valor utilizamos uma função, chamada de <em>Hashing function</em>. Essa função pode ser implementada de diversas maneiras, porém mais para frente você vai entender o porquê o tipo de implementação é importante.</p>
+<p>Como já vimos na aula 20, <strong><em>Hashing</em></strong> é um processo que gera uma saída de um valor a partir de uma entrada com tamanho variável. Essa entrada pode ser tanto números quanto caracteres. O valor da saída é conhecido como <strong><em>Hash Value</em></strong> e para chegarmos nesse valor utilizamos uma função, chamada de <em>Hashing function</em>. Essa função pode ser implementada de diversas maneiras, porém mais para frente você vai entender o porquê o tipo de implementação é importante.</p>
 
 <p>Para calcular um <strong><em>Hash Value</em></strong> é utilizado os valores da tabela ASCII respectivos para cada caracter. Você pode acessar a tabela ASCII <a href="https://jeffersonpalheta.files.wordpress.com/2017/09/ascii.png" target="_blank">aqui</a>.</p>
 
-<h2>Questão 2</h2>
+<h2>Questão 1</h2>
 
 <p>Uma maneira para se obter o <em>hash Value</em> é simplesmente somar o valor da tabela ASCII referente a cada caracter. Vamos ver se você entendeu? Calcule o <em>hash Value</em> da palavra <code class="prettybox prettyprint">HASH</code>.</p>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
-<h2>Resposta da Questão 2</h2>
+<h2>Resposta da Questão 1</h2>
 
 <pre class="prettybox"><code class="prettyprint">72 + 65 + 72 + 83 = 292</code></pre>
 
-<h2>Questão 3</h2>
+<h2>Questão 2</h2>
 
 <p>Agora que vc entendeu como funciona, tente pensar em como implementar essas mudanças no código que você viu acima para comparar os <em>hash Value</em> ao invés de comparar caracter por caracter.</p>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
-<h2>Resposta da Questão 3</h2>
+<h2>Resposta da Questão 2</h2>
 
 <p>Você deve ter chegado em algo parecido com isso:</p>
 
@@ -83,14 +77,14 @@
 
     return indexes</code></pre>
 
-<h2>Questão 4</h2>
+<h2>Questão 3</h2>
 
 <p>Mas ainda temos um problema problema! É necessário acessar vários caracteres múltiplas vezes para pegar o seu valor. 
 Como é possível observar na simulação abaixo, primeiro é calculado o valor de <code class="prettybox prettyprint">ADA</code>, ou ,seja o valor de <code class="prettybox prettyprint">A</code> + <code class="prettybox prettyprint">D</code> + <code class="prettybox prettyprint">A</code>, na proxima iteração, é calculado do valor de <code class="prettybox prettyprint">DAC</code>, ou seja, <code class="prettybox prettyprint">D</code> + <code class="prettybox prettyprint">A</code> + <code class="prettybox prettyprint">C</code> porém, o valor de <code class="prettybox prettyprint">D</code> e <code class="prettybox prettyprint">A</code> que já foi calculado na primeira iteração, é recalculado para a segunda.</p>
 
 <p class="figure"><img alt="simulacao1" src="img/simulacao1.gif" title="simulacao1" class="raster"/></p>
 
-<p>Fazendo o código dessa maneira gera uma complexidade de \(O(nm)\), o que não é bom. Você tem ideia de como melhorar esse problema?</p>
+<p>Fazendo o código dessa maneira gera uma complexidade de \(O(nm)\), ou seja, não melhorou nada se comparado ao algoritmo <em>Brute force</em>. Você tem ideia de como melhorar esse problema?</p>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
@@ -101,7 +95,7 @@ Esta função pode ser visualizada na animação abaixo:  </p>
 
 <p class="figure"><img alt="simulacao2" src="img/simulacao2.gif" title="simulacao2" class="raster"/></p>
 
-<p>Na simulação acima, o caracter que está em vermelho é subtraído e o que passou de lílas para roxo, é adicionado. A implementação está abaixo:</p>
+<p>Na simulação acima, o caractere que está em vermelho é subtraído e o que passou de lilás para roxo, é adicionado. A implementação está abaixo:</p>
 
 <pre class="prettybox"><code class="prettyprint">def RollingHash(text, pattern):
     indexes = []
@@ -123,35 +117,35 @@ Esta função pode ser visualizada na animação abaixo:  </p>
             indexes.append(i-(n-1))
     return indexes</code></pre>
 
-<h2>Questão 5</h2>
+<h2>Questão 4</h2>
 
-<p>Qual é a complexidade desse código? </p>
+<p>Qual é a complexidade deste código? </p>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
-<h2>Resposta da Questão 5</h2>
+<h2>Resposta da Questão 4</h2>
 
 <p>Por reutilizar valores calculados anteriormente, esse código tem complexidade \(O(n+m)\), melhor que o \(O(nm)\) da implementação <em>Brute force</em>.</p>
 
-<h2>Questão 6</h2>
+<h2>Questão 5</h2>
 
-<p>Essa <em>Hashing function</em> pode, eventualmente, gerar um problema. Você consegue pensar em qual é? Reflita um pouquinho antes de continuar.  </p>
+<p>Essa <em>Hashing function</em> pode, eventualmente, gerar um problema. Você consegue pensar em qual é? Esse conceito já foi apresentado na aula 20. Reflita um pouquinho antes de continuar.  </p>
 
-<blockquote><p>DICA. Simule as funções acima com as entradas:  <br/>TEXT: &quot;O MARCELO HASHIMOTO ESTÁ INDO NA PADARIA PDCM, ALGÚEM QUER PÃO?&quot;<br/>PATTERN: &quot;HASH&quot;  </p></blockquote>
+<blockquote><p><em>DICA</em>.  Simule as funções acima com as entradas:  <br/>TEXT: &quot;O MARCELO HASHIMOTO ESTÁ INDO NA PADARIA PDCM, ALGUÉM QUER PÃO?&quot;<br/>PATTERN: &quot;HASH&quot;  </p></blockquote>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
 <h2>Colisão</h2>
 
-<p>Notou algum problema? Esse caso é o que chamamos de <em>colisão</em>. Uma colisão ocorre quando duas ou mais entradas têm o mesmo hash value. No exemplo acima, tanto <code class="prettybox prettyprint">HASH</code> como <code class="prettybox prettyprint">PDCM</code> tem o mesmo hash value. <strong>Todas</strong> as funções têm chances de ocorrer colisão, mas algumas funções tem uma menor probabilidade do que outras. Uma <em>boa</em> hash function diminui ao máximo o número de colisões.<br/>Nesta aula utilizaremos a seguinte lei para a função de hashing:</p>
+<p>Notou algum problema? Esse caso é o que chamamos de <em>colisão</em>. Uma colisão ocorre quando duas ou mais entradas têm o mesmo hash value. No exemplo acima, tanto <code class="prettybox prettyprint">HASH</code> como <code class="prettybox prettyprint">PDCM</code> tem o mesmo hash value. <strong>Todas</strong> as funções têm chances de ocorrer colisão, mas algumas funções têm uma menor probabilidade do que outras. Uma <em>boa</em> hash function diminui ao máximo o número de colisões.<br/>Nesta aula utilizaremos a seguinte lei para a função de hashing:</p>
 
 <p>\(Value = X.R_1^{N-1} + X.R_2^{N-1} + X.R_3^{N-2} + ...  + X.R_N^0\)</p>
 
 <p>Onde:</p>
 
-<ul><li>N é a quantidade de caracteres do padrão calculado.</li><li>X é o valor do caracter na tabela ASCII</li><li>R é a quantidade de caracteres do alfabeto utilizado, por exemplo R = 256 para o alfabeto ASCII estendido.  </li></ul>
+<ul><li>N é a quantidade de caracteres do padrão calculado.</li><li>X é o valor do caractere na tabela ASCII</li><li>R é a quantidade de caracteres do alfabeto utilizado, por exemplo R = 256 para o alfabeto ASCII extendido.  </li></ul>
 
-<p>O código abaixo calcula os valores de hash diminuindo a possibilidade de colisões entre padrão e texto, conforme a formula mostrada acima e considerando R = 256. </p>
+<p>O código abaixo calcula os valores de hash diminuindo a possibilidade de colisões entre padrão e texto, conforme a fórmula mostrada acima e considerando R = 256. </p>
 
 <pre class="prettybox"><code class="prettyprint">def rabinKarp(text, pattern):
     indexes = []
@@ -180,18 +174,23 @@ Esta função pode ser visualizada na animação abaixo:  </p>
 
 <p>O algoritmo de Rabin-Karp consiste em procurar por um segmento de texto que tenha o mesmo <em>hash value</em> do padrão, o seu grande diferencial é utilizar o método <em>rolling hash</em>.</p>
 
-<h2>Questão 7</h2>
+<h2>Questão 6</h2>
 
-<p>Como mencionamos antes, <strong>todas</strong> as funções têm chances de ocorrer colisão. O algoritmo acima não leva isso em conta. Você consegue pensar em um método que elimine esse problema?</p>
+<p>Como mencionado anteriormente, <strong>todas</strong> as funções têm chances de ocorrer colisão. O algoritmo acima não leva isso em conta. Você consegue pensar em um método que elimine esse problema?</p>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
+<h2>Resposta da Questão 6</h2>
+
+<p>Uma maneira de contornar isso é, quando os valores de <em>hash</em> batem, checar caractere por caractere se coincide com o padrão. Isso é implementado na versão <em>Las Vegas</em> do algoritmo. </p>
+
 <h2>Monte Carlo e Las Vegas</h2>
 
-<p> Existem dois tipos de implementação desse algoritmo, o método de <strong>Monte Carlo</strong> e de <strong>Las Vegas</strong>. A primeira assume que não há nenhuma colisão durante a comparação. Quando o hash value do fragmento do texto bate com o do padrão, nenhuma comparação de caracteres é feita.
- Já a de <em>Las Vegas</em> checa se os caracteres são realmente os mesmos, mas isso significa que em um caso em que todos os fragmentos de texto analisados têm o mesmo hash value do padrão.</p>
+<p>Existem duas classes gerais de algoritimos chamadas de <strong>Monte Carlo</strong> e de <strong>Las Vegas</strong>.  A versão <em>Las Vegas</em> sempre retorna a saída correta ou no pior caso, avisa quando o algoritmo falha, já a de <em>Monte Carlo</em> pode retornar um valor incorreto com uma certa probabilidade. 
+Com relação ao algoritmo de Rabin-Karp, a <em>Monte Carlo</em>  assume que não há nenhuma colisão durante a comparação. Quando o hash value do fragmento do texto bate com o do padrão, nenhuma comparação de caracteres é feita.
+Já a de <em>Las Vegas</em> checa se os caracteres são realmente os mesmos, mas isso significa que em um caso em que todos os fragmentos de texto analisados têm o mesmo hash value do padrão.</p>
 
-<h2>Questão 8</h2>
+<h2>Questão 7</h2>
 
 <p>Preencha a tabela de complexidade:</p>
 
@@ -199,7 +198,7 @@ Esta função pode ser visualizada na animação abaixo:  </p>
 
 <h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
-<h2>Resposta da Questão 8</h2>
+<h2>Resposta da Questão 7</h2>
 
 <p>As comparações de complexidade entre as implementações mencionadas podem ser vistas na tabela abaixo:  </p>
 
@@ -209,15 +208,32 @@ Esta função pode ser visualizada na animação abaixo:  </p>
 
 <h2>Sobre o algoritmo</h2>
 
-<p>O Rabin-Karp pode ser utilizado como uma ferramenta de busca simples, porém onde ele tem seu valor destacado é dentro de sistemas de plágio, nos quais parágrafos de textos avaliativos ou científicos são colocados no programa como padrão de busca enquanto livros e banco de dados relacionados ao tema são colocados como texto aonde se quer encontrar alguma incidência de cópia indevida. 
-Nesses casos, como a entrada é grande, o número de colisões se reduz significamente, pois o hash value fica cada vez mais específico e tendendo à ser único. O que garante que nesse tipo de aplicação o programa atue com seu melhor nivel de complexidade \(O(n+m)\). </p>
+<p>O Rabin-Karp pode ser utilizado como uma ferramenta de busca simples, porém onde ele tem seu valor destacado é dentro de sistemas de plágio, nos quais parágrafos de textos avaliativos ou científicos são colocados no programa como padrão de busca enquanto livros e banco de dados relacionados ao tema são colocados como texto onde se quer encontrar alguma incidência de cópia indevida. 
+Nesses casos, como a entrada é grande, o número de colisões se reduz significamente, pois o hash value fica cada vez mais específico e tendendo à ser único. O que garante que nesse tipo de aplicação o programa atue com seu melhor nível de complexidade \(O(n+m)\). </p>
+
+<p>Você consegue pensar no problema que pode ocorrer quando o padrão a ser calculado é muito extenso?</p>
+
+<blockquote><p><em>DICA</em>. inteiros são limitado pelo espaço disponível na memória.    </p></blockquote>
+
+<h3><a href="">continuar</a> ou <a href="">terminar</a></h3>
 
 <h2>Overflow</h2>
 
-<p>Quando o padrão a ser calculado é muito grande, pode ocorrer problema de overflow. Para contornar isso, o algoritmo de Rabin-Karp utiliza <em>hashing modular</em>.<br/>Ou seja, toda vez que um valor de hash é calculado, é feito o modulo desse valor por Q (\(Value = Value % Q 0\)), onde Q é um inteiro maior que R (quantidade de caracteres do alfabeto utilizado). Para evitar colisões é interessante que o valor Q seja um número primo.
-Abaixo temos o exemplo de um fórmula para cálcular um hash value utilizando modulação e técnicas para diminuir a possibilidade de colisões.</p>
+<p>Quando o padrão a ser calculado é muito grande, pode ocorrer problema de overflow. Para contornar isso, o algoritmo de Rabin-Karp utiliza <em>hashing modular</em>.<br/>Ou seja, toda vez que um valor de hash é calculado, é feito o módulo desse valor por Q ( \(Value = Value \) % Q ), onde Q é um inteiro maior que R (quantidade de caracteres do alfabeto utilizado). Para evitar colisões é interessante que o valor Q seja um número primo.
+Abaixo temos o exemplo de um fórmula para calcular um hash value utilizando modulação e técnicas para diminuir a possibilidade de colisões.</p>
 
 <p>\(Value = ((R . X_{i-1}\) % \(Q + t_{i-1}(Q-R^{M-1} \)%\(Q)).R + t_{1+M-1} A Q )\)</p>
+
+<hr/>
+
+<p>na questao das duas versos (monte carlo e las vegas)
+talvez vale a pena falar que sao duas classes gerais de algoritimos, e nao somente do rabin karp</p>
+
+<p>OK  tentar transformar overflow em atividade
+    dica que inteiros sao limitados em linguagem como c</p>
+
+<p>OK  quando chegar na resposta da questao 4, deixar mais claro
+    &quot;isso significa que nao melhorou nada em relacao a forca bruta, nao eh diferente e sim a mesma coisa&quot;</p>
 
       </main>
       <footer>

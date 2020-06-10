@@ -2,7 +2,7 @@
 
 ## Introdução
 
-Você já sabe um jeito básico para procurar padrão em strings, vamos relembrar:  
+Você já sabe um jeito básico para procurar padrões em strings, vamos relembrar:  
     
     def stringMatching(text, pattern):
         indexes = []
@@ -12,37 +12,31 @@ Você já sabe um jeito básico para procurar padrão em strings, vamos relembra
         return indexes
 
 
-Já sabemos que essa maneira não é ideal pois tem complexidade $$O(nm)$$ e como vocês viram há outras maneiras mais eficientes de solucionar este problema, vamos implementar mais uma forma.  
+Já sabemos que essa maneira não é ideal pois tem complexidade $$O(nm)$$ e como vocês viram, há outras maneiras mais eficientes de solucionar este problema, vamos implementar mais uma forma.  
 
-## Questão 1
-
-Antes de iniciarmos com o algoritmo, é importante falarmos um pouco sobre **_hashing_**, pois ele é essêncial para o funcionamento dessa busca. Apenas como aquecimento, discuta com seus colegas se algum de vocês ja ouviu falar sobre este tema.  
-Coisa rapida, levem cerca de 2 minutos e sigam em frente.
-
-###
  
 ## Hashing
 
-**_Hashing_** é um processo que gera uma saída de um valor a partir de uma entrada com tamanho variável. Essa entrada pode ser tanto números quanto caracteres. O valor da saída é conhecido como **_Hash Value_** e para chegarmos nesse valor utilizamos uma função, chamada de _Hashing function_. Essa função pode ser implementada de diversas maneiras, porém mais para frente você vai entender o porquê o tipo de implementação é importante.
+Como já vimos na aula 20, **_Hashing_** é um processo que gera uma saída de um valor a partir de uma entrada com tamanho variável. Essa entrada pode ser tanto números quanto caracteres. O valor da saída é conhecido como **_Hash Value_** e para chegarmos nesse valor utilizamos uma função, chamada de _Hashing function_. Essa função pode ser implementada de diversas maneiras, porém mais para frente você vai entender o porquê o tipo de implementação é importante.
 
 Para calcular um **_Hash Value_** é utilizado os valores da tabela ASCII respectivos para cada caracter. Você pode acessar a tabela ASCII [aqui](https://jeffersonpalheta.files.wordpress.com/2017/09/ascii.png).
 
-## Questão 2
+## Questão 1
 
 Uma maneira para se obter o _hash Value_ é simplesmente somar o valor da tabela ASCII referente a cada caracter. Vamos ver se você entendeu? Calcule o _hash Value_ da palavra `HASH`.
 
 ###
 
-## Resposta da Questão 2
+## Resposta da Questão 1
 
     72 + 65 + 72 + 83 = 292
 
-## Questão 3
+## Questão 2
 Agora que vc entendeu como funciona, tente pensar em como implementar essas mudanças no código que você viu acima para comparar os _hash Value_ ao invés de comparar caracter por caracter.
 
 ###
 
-## Resposta da Questão 3
+## Resposta da Questão 2
 Você deve ter chegado em algo parecido com isso:
 
     def stringSearchHash(text, pattern):
@@ -65,7 +59,7 @@ Você deve ter chegado em algo parecido com isso:
         return indexes
 
 
-## Questão 4 
+## Questão 3
 
 
 Mas ainda temos um problema problema! É necessário acessar vários caracteres múltiplas vezes para pegar o seu valor. 
@@ -73,7 +67,7 @@ Como é possível observar na simulação abaixo, primeiro é calculado o valor 
 
 ![simulacao1](simulacao1.gif)
 
-Fazendo o código dessa maneira gera uma complexidade de $$O(nm)$$, o que não é bom. Você tem ideia de como melhorar esse problema?
+Fazendo o código dessa maneira gera uma complexidade de $$O(nm)$$, ou seja, não melhorou nada se comparado ao algoritmo _Brute force_. Você tem ideia de como melhorar esse problema?
 
 ###
 
@@ -83,7 +77,7 @@ Esta função pode ser visualizada na animação abaixo:
 
 ![simulacao2](simulacao2.gif)
 
-Na simulação acima, o caracter que está em vermelho é subtraído e o que passou de lílas para roxo, é adicionado. A implementação está abaixo:
+Na simulação acima, o caractere que está em vermelho é subtraído e o que passou de lilás para roxo, é adicionado. A implementação está abaixo:
       
       
     def RollingHash(text, pattern):
@@ -109,29 +103,31 @@ Na simulação acima, o caracter que está em vermelho é subtraído e o que pas
 
 
 
-## Questão 5 
+## Questão 4 
 
-Qual é a complexidade desse código? 
+Qual é a complexidade deste código? 
 
 ###
 
-## Resposta da Questão 5
+## Resposta da Questão 4
 
 Por reutilizar valores calculados anteriormente, esse código tem complexidade $$O(n+m)$$, melhor que o $$O(nm)$$ da implementação _Brute force_.
 
 
-## Questão 6 
+## Questão 5 
 
-Essa _Hashing function_ pode, eventualmente, gerar um problema. Você consegue pensar em qual é? Reflita um pouquinho antes de continuar.  
->DICA. Simule as funções acima com as entradas:    
->TEXT: "O MARCELO HASHIMOTO ESTÁ INDO NA PADARIA PDCM, ALGÚEM QUER PÃO?"  
+Essa _Hashing function_ pode, eventualmente, gerar um problema. Você consegue pensar em qual é? Esse conceito já foi apresentado na aula 20. Reflita um pouquinho antes de continuar.  
+ 
+>_DICA_.  Simule as funções acima com as entradas:    
+>TEXT: "O MARCELO HASHIMOTO ESTÁ INDO NA PADARIA PDCM, ALGUÉM QUER PÃO?"  
 >PATTERN: "HASH"  
+
 
 ###
 
 ## Colisão
 
-Notou algum problema? Esse caso é o que chamamos de _colisão_. Uma colisão ocorre quando duas ou mais entradas têm o mesmo hash value. No exemplo acima, tanto `HASH` como `PDCM` tem o mesmo hash value. **Todas** as funções têm chances de ocorrer colisão, mas algumas funções tem uma menor probabilidade do que outras. Uma _boa_ hash function diminui ao máximo o número de colisões.  
+Notou algum problema? Esse caso é o que chamamos de _colisão_. Uma colisão ocorre quando duas ou mais entradas têm o mesmo hash value. No exemplo acima, tanto `HASH` como `PDCM` tem o mesmo hash value. **Todas** as funções têm chances de ocorrer colisão, mas algumas funções têm uma menor probabilidade do que outras. Uma _boa_ hash function diminui ao máximo o número de colisões.  
 Nesta aula utilizaremos a seguinte lei para a função de hashing:
 
 $$Value = X.R_1^{N-1} + X.R_2^{N-1} + X.R_3^{N-2} + ...  + X.R_N^0$$
@@ -139,10 +135,10 @@ $$Value = X.R_1^{N-1} + X.R_2^{N-1} + X.R_3^{N-2} + ...  + X.R_N^0$$
 Onde:
 
 - N é a quantidade de caracteres do padrão calculado.
-- X é o valor do caracter na tabela ASCII
-- R é a quantidade de caracteres do alfabeto utilizado, por exemplo R = 256 para o alfabeto ASCII estendido.  
+- X é o valor do caractere na tabela ASCII
+- R é a quantidade de caracteres do alfabeto utilizado, por exemplo R = 256 para o alfabeto ASCII extendido.  
 
-O código abaixo calcula os valores de hash diminuindo a possibilidade de colisões entre padrão e texto, conforme a formula mostrada acima e considerando R = 256. 
+O código abaixo calcula os valores de hash diminuindo a possibilidade de colisões entre padrão e texto, conforme a fórmula mostrada acima e considerando R = 256. 
 
     def rabinKarp(text, pattern):
         indexes = []
@@ -171,42 +167,52 @@ O código abaixo calcula os valores de hash diminuindo a possibilidade de colis�
 
 O algoritmo de Rabin-Karp consiste em procurar por um segmento de texto que tenha o mesmo _hash value_ do padrão, o seu grande diferencial é utilizar o método _rolling hash_.
 
-## Questão 7
+## Questão 6
 
-Como mencionamos antes, **todas** as funções têm chances de ocorrer colisão. O algoritmo acima não leva isso em conta. Você consegue pensar em um método que elimine esse problema?
+Como mencionado anteriormente, **todas** as funções têm chances de ocorrer colisão. O algoritmo acima não leva isso em conta. Você consegue pensar em um método que elimine esse problema?
 
 ###
+## Resposta da Questão 6
+
+Uma maneira de contornar isso é, quando os valores de _hash_ batem, checar caractere por caractere se coincide com o padrão. Isso é implementado na versão _Las Vegas_ do algoritmo. 
 
 ## Monte Carlo e Las Vegas
- 
- Existem dois tipos de implementação desse algoritmo, o método de **Monte Carlo** e de **Las Vegas**. A primeira assume que não há nenhuma colisão durante a comparação. Quando o hash value do fragmento do texto bate com o do padrão, nenhuma comparação de caracteres é feita.
- Já a de _Las Vegas_ checa se os caracteres são realmente os mesmos, mas isso significa que em um caso em que todos os fragmentos de texto analisados têm o mesmo hash value do padrão.
 
-## Questão 8
+Existem duas classes gerais de algoritimos chamadas de **Monte Carlo** e de **Las Vegas**.  A versão _Las Vegas_ sempre retorna a saída correta ou no pior caso, avisa quando o algoritmo falha, já a de _Monte Carlo_ pode retornar um valor incorreto com uma certa probabilidade. 
+Com relação ao algoritmo de Rabin-Karp, a _Monte Carlo_  assume que não há nenhuma colisão durante a comparação. Quando o hash value do fragmento do texto bate com o do padrão, nenhuma comparação de caracteres é feita.
+Já a de _Las Vegas_ checa se os caracteres são realmente os mesmos, mas isso significa que em um caso em que todos os fragmentos de texto analisados têm o mesmo hash value do padrão.
+
+## Questão 7
 Preencha a tabela de complexidade:
 
 ![complexidade](complex.png) 
 
 ###
 
-## Resposta da Questão 8
+## Resposta da Questão 7
 As comparações de complexidade entre as implementações mencionadas podem ser vistas na tabela abaixo:  
 
 ![complexidade](complexidade.png)  
 
+ 
 A complexidade em um caso médio da implementação _Las Vegas_ é $$O(n+m)$$, contudo em situações nas quais existam muitas colisões esse nível de complexidade irá aumentar para $$O(nm)$$, pois os hashings que coincidirem com o Hash Value desejado, irão ser testados caractere a caractere, para evitar que existam falsos positivos.  
 O caso médio da Las Vegas, não é muito diferente do caso médio da Monte Carlo , contudo vale ressaltar a diferença essencial que ambas possuem. No pior caso da Monte Carlo, a complexidade não é alterada, pois esta não checa os caracteres do hash value caso este seja encontrado na busca ele apenas o julga como positivo verdadeiro.
  
  
 ## Sobre o algoritmo
-O Rabin-Karp pode ser utilizado como uma ferramenta de busca simples, porém onde ele tem seu valor destacado é dentro de sistemas de plágio, nos quais parágrafos de textos avaliativos ou científicos são colocados no programa como padrão de busca enquanto livros e banco de dados relacionados ao tema são colocados como texto aonde se quer encontrar alguma incidência de cópia indevida. 
-Nesses casos, como a entrada é grande, o número de colisões se reduz significamente, pois o hash value fica cada vez mais específico e tendendo à ser único. O que garante que nesse tipo de aplicação o programa atue com seu melhor nivel de complexidade $$O(n+m)$$. 
+O Rabin-Karp pode ser utilizado como uma ferramenta de busca simples, porém onde ele tem seu valor destacado é dentro de sistemas de plágio, nos quais parágrafos de textos avaliativos ou científicos são colocados no programa como padrão de busca enquanto livros e banco de dados relacionados ao tema são colocados como texto onde se quer encontrar alguma incidência de cópia indevida. 
+Nesses casos, como a entrada é grande, o número de colisões se reduz significamente, pois o hash value fica cada vez mais específico e tendendo à ser único. O que garante que nesse tipo de aplicação o programa atue com seu melhor nível de complexidade $$O(n+m)$$. 
+
+Você consegue pensar no problema que pode ocorrer quando o padrão a ser calculado é muito extenso?
+>_DICA_. inteiros são limitado pelo espaço disponível na memória.    
+
+###
 
 ## Overflow
 
 Quando o padrão a ser calculado é muito grande, pode ocorrer problema de overflow. Para contornar isso, o algoritmo de Rabin-Karp utiliza _hashing modular_.  
-Ou seja, toda vez que um valor de hash é calculado, é feito o modulo desse valor por Q ($$Value = Value % Q 0$$), onde Q é um inteiro maior que R (quantidade de caracteres do alfabeto utilizado). Para evitar colisões é interessante que o valor Q seja um número primo.
-Abaixo temos o exemplo de um fórmula para cálcular um hash value utilizando modulação e técnicas para diminuir a possibilidade de colisões.
+Ou seja, toda vez que um valor de hash é calculado, é feito o módulo desse valor por Q ( $$Value = Value $$ % Q ), onde Q é um inteiro maior que R (quantidade de caracteres do alfabeto utilizado). Para evitar colisões é interessante que o valor Q seja um número primo.
+Abaixo temos o exemplo de um fórmula para calcular um hash value utilizando modulação e técnicas para diminuir a possibilidade de colisões.
 
 
 $$Value = ((R . X_{i-1}$$ % $$Q + t_{i-1}(Q-R^{M-1} $$%$$Q)).R + t_{1+M-1} A Q )$$
@@ -215,4 +221,14 @@ $$Value = ((R . X_{i-1}$$ % $$Q + t_{i-1}(Q-R^{M-1} $$%$$Q)).R + t_{1+M-1} A Q )
 
 
 
+_______________________________________________________________________
 
+
+na questao das duas versos (monte carlo e las vegas)
+talvez vale a pena falar que sao duas classes gerais de algoritimos, e nao somente do rabin karp
+
+OK  tentar transformar overflow em atividade
+    dica que inteiros sao limitados em linguagem como c
+
+OK  quando chegar na resposta da questao 4, deixar mais claro
+    "isso significa que nao melhorou nada em relacao a forca bruta, nao eh diferente e sim a mesma coisa"
