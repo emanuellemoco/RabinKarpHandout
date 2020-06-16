@@ -19,11 +19,11 @@ Já sabemos que essa maneira não é ideal pois tem complexidade $$O(nm)$$ e com
 
 Como já vimos na aula 20, **_Hashing_** é um processo que gera uma saída de um valor a partir de uma entrada com tamanho variável. Essa entrada pode ser tanto números quanto caracteres. O valor da saída é conhecido como **_Hash Value_** e para chegarmos nesse valor utilizamos uma função, chamada de _Hashing function_. Essa função pode ser implementada de diversas maneiras, porém mais para frente você vai entender o porquê o tipo de implementação é importante.
 
-Para calcular um **_Hash Value_** é utilizado os valores da tabela ASCII respectivos para cada caracter. Você pode acessar a tabela ASCII [aqui](https://jeffersonpalheta.files.wordpress.com/2017/09/ascii.png).
+Para calcular um **_Hash Value_** é utilizado os valores da tabela ASCII respectivos para cada caractere. Você pode acessar a tabela ASCII [aqui](https://jeffersonpalheta.files.wordpress.com/2017/09/ascii.png).
 
 ## Questão 1
 
-Uma maneira para se obter o _hash Value_ é simplesmente somar o valor da tabela ASCII referente a cada caracter. Vamos ver se você entendeu? Calcule o _hash Value_ da palavra `HASH`.
+Uma maneira para se obter o _hash Value_ é simplesmente somar o valor da tabela ASCII referente a cada caractere. Vamos ver se você entendeu? Calcule o _hash Value_ da palavra `HASH`.
 
 ###
 
@@ -32,7 +32,7 @@ Uma maneira para se obter o _hash Value_ é simplesmente somar o valor da tabela
     72 + 65 + 72 + 83 = 292
 
 ## Questão 2
-Agora que vc entendeu como funciona, tente pensar em como implementar essas mudanças no código que você viu acima para comparar os _hash Value_ ao invés de comparar caracter por caracter.
+Agora que vc entendeu como funciona, tente pensar em como implementar essas mudanças no código que você viu acima para comparar os _hash Value_ ao invés de comparar caractere por caractere.
 
 ###
 
@@ -130,7 +130,7 @@ Essa _Hashing function_ pode, eventualmente, gerar um problema. Você consegue p
 Notou algum problema? Esse caso é o que chamamos de _colisão_. Uma colisão ocorre quando duas ou mais entradas têm o mesmo hash value. No exemplo acima, tanto `HASH` como `PDCM` tem o mesmo hash value. **Todas** as funções têm chances de ocorrer colisão, mas algumas funções têm uma menor probabilidade do que outras. Uma _boa_ hash function diminui ao máximo o número de colisões.  
 Nesta aula utilizaremos a seguinte lei para a função de hashing:
 
-$$Value = X.R_1^{N-1} + X.R_2^{N-1} + X.R_3^{N-2} + ...  + X.R_N^0$$
+$$Value = X.R_1^{N-1} + X.R_2^{N-2} + X.R_3^{N-3} + ...  + X.R_N^0$$
 
 Onde:
 
@@ -218,17 +218,3 @@ Abaixo temos o exemplo de um fórmula para calcular um hash value utilizando mod
 $$Value = ((R . X_{i-1}$$ % $$Q + t_{i-1}(Q-R^{M-1} $$%$$Q)).R + t_{1+M-1} A Q )$$
 
 
-
-
-
-_______________________________________________________________________
-
-
-na questao das duas versos (monte carlo e las vegas)
-talvez vale a pena falar que sao duas classes gerais de algoritimos, e nao somente do rabin karp
-
-OK  tentar transformar overflow em atividade
-    dica que inteiros sao limitados em linguagem como c
-
-OK  quando chegar na resposta da questao 4, deixar mais claro
-    "isso significa que nao melhorou nada em relacao a forca bruta, nao eh diferente e sim a mesma coisa"
